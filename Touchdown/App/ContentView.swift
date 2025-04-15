@@ -8,12 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
-    // MARK: - PROPERTIES
-    
-    // MARK: - BODY
     var body: some View {
-        FooterView()
-            .padding(.horizontal)
+        // GeometryReader is used to access safe area insets safely (iOS 15+)
+        GeometryReader { geometry in
+            ZStack {
+                VStack(spacing: 0) {
+                    // Top navigation bar with safe area padding
+                    NavigationBarView()
+                        .padding(.horizontal, 15)
+                        .padding(.bottom)
+                        .padding(.top, geometry.safeAreaInsets.top)
+                        .background(Color.white)
+                        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 5)
+
+                    Spacer()
+
+                    // Bottom footer view
+                    FooterView()
+                        .padding(.horizontal)
+                } //: VSTACK
+                .background(colorBackground.ignoresSafeArea(.all, edges: .all))
+            } //: ZSTACK
+            .ignoresSafeArea(.all, edges: .top)
+        } //: GEOMETRYREADER
     }
 }
 
